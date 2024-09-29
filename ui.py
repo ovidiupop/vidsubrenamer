@@ -1,7 +1,6 @@
-# ui.py
-
 import tkinter as tk
 from tkinter import filedialog, messagebox
+import os
 import config  # Importă configurările din config.py
 import business  # Importă funcțiile de business logic
 
@@ -26,57 +25,75 @@ def rename_action():
     messagebox.showinfo("Rezultatul operațiunii", result_message)
 
 # Interfață grafică
-root = tk.Tk()
-root.title("Renamer Video/Subtitrări")
+def run():
+    root = tk.Tk()
+    root.title("Renamer Video/Subtitrări")
 
-# Setăm dimensiuni fixe pentru fereastră
-root.geometry("760x200")
-root.resizable(False, False)  # Nu permite redimensionarea ferestrei
+    # Setăm icoana aplicației folosind un fișier PNG, verificând existența acestuia
+    icon_path = "icon/renamer.png"
+    if os.path.exists(icon_path):
+        try:
+            root.iconphoto(False, tk.PhotoImage(file=icon_path))
+        except Exception as e:
+            print("Eroare la setarea icoanei:", e)
+    else:
+        print(f"Eroare: Fișierul '{icon_path}' nu există.")
 
-# Stiluri pentru elementele interfeței
-label_font = ("Arial", 12)
-button_font = ("Arial", 10, "bold")
-button_bg = "#4CAF50"
-button_fg = "#FFFFFF"
+    # Setăm dimensiuni fixe pentru fereastră
+    root.geometry("760x200")
+    root.resizable(False, False)  # Nu permite redimensionarea ferestrei
 
-# Padding mai mic pentru partea de jos
-global_padding_y = 5
+    # Stiluri pentru elementele interfeței
+    label_font = ("Arial", 12)
+    button_font = ("Arial", 10, "bold")
+    button_bg = "#4CAF50"
+    button_fg = "#FFFFFF"
 
-# Câmp pentru calea folderului
-folder_path_label = tk.Label(root, text="Calea folderului sursă:", font=label_font)
-folder_path_label.grid(row=0, column=0, padx=10, pady=global_padding_y, sticky="w")
+    # Padding mai mic pentru partea de jos
+    global_padding_y = 5
 
-folder_path_entry = tk.Entry(root, width=40, font=label_font)  # Ajustare lățime
-folder_path_entry.grid(row=0, column=1, padx=10, pady=global_padding_y, sticky="w")
+    # Câmp pentru calea folderului
+    global folder_path_entry  # Declaram variabila ca globala pentru a putea fi accesata din functii
+    folder_path_label = tk.Label(root, text="Calea folderului sursă:", font=label_font)
+    folder_path_label.grid(row=0, column=0, padx=10, pady=global_padding_y, sticky="w")
 
-folder_button = tk.Button(root, text="Selectează folderul", command=select_folder, font=button_font, bg=button_bg, fg=button_fg)
-folder_button.grid(row=0, column=2, padx=10, pady=global_padding_y, sticky="e")
+    folder_path_entry = tk.Entry(root, width=40, font=label_font)  # Ajustare lățime
+    folder_path_entry.grid(row=0, column=1, padx=10, pady=global_padding_y, sticky="w")
 
-# Dropdown pentru selectarea extensiei fișierului video
-video_ext_label = tk.Label(root, text="Extensia fișierelor video:", font=label_font)
-video_ext_label.grid(row=1, column=0, padx=10, pady=global_padding_y, sticky="w")
+    folder_button = tk.Button(root, text="Selectează folderul", command=select_folder, font=button_font, bg=button_bg, fg=button_fg)
+    folder_button.grid(row=0, column=2, padx=10, pady=global_padding_y, sticky="e")
 
-video_ext_var = tk.StringVar(root)
-video_ext_var.set(config.video_formats[0])  # Setăm prima opțiune din listă ca implicită
+    # Dropdown pentru selectarea extensiei fișierului video
+    global video_ext_var  # Facem variabila globală pentru a o accesa în alte funcții
+    video_ext_label = tk.Label(root, text="Extensia fișierelor video:", font=label_font)
+    video_ext_label.grid(row=1, column=0, padx=10, pady=global_padding_y, sticky="w")
 
-video_ext_menu = tk.OptionMenu(root, video_ext_var, *config.video_formats)
-video_ext_menu.config(font=label_font, width=15)  # Lățime fixă pentru select
-video_ext_menu.grid(row=1, column=1, padx=10, pady=global_padding_y, sticky="w")
+    video_ext_var = tk.StringVar(root)
+    video_ext_var.set(config.video_formats[0])  # Setăm prima opțiune din listă ca implicită
 
-# Dropdown pentru selectarea extensiei subtitrării
-subtitle_ext_label = tk.Label(root, text="Extensia subtitrărilor:", font=label_font)
-subtitle_ext_label.grid(row=2, column=0, padx=10, pady=global_padding_y, sticky="w")
+    video_ext_menu = tk.OptionMenu(root, video_ext_var, *config.video_formats)
+    video_ext_menu.config(font=label_font, width=15)  # Lățime fixă pentru select
+    video_ext_menu.grid(row=1, column=1, padx=10, pady=global_padding_y, sticky="w")
 
-subtitle_ext_var = tk.StringVar(root)
-subtitle_ext_var.set(config.subtitle_formats[0])  # Setăm prima opțiune din listă ca implicită
+    # Dropdown pentru selectarea extensiei subtitrării
+    global subtitle_ext_var  # Facem variabila globală pentru a o accesa în alte funcții
+    subtitle_ext_label = tk.Label(root, text="Extensia subtitrărilor:", font=label_font)
+    subtitle_ext_label.grid(row=2, column=0, padx=10, pady=global_padding_y, sticky="w")
 
-subtitle_ext_menu = tk.OptionMenu(root, subtitle_ext_var, *config.subtitle_formats)
-subtitle_ext_menu.config(font=label_font, width=15)  # Lățime fixă pentru select
-subtitle_ext_menu.grid(row=2, column=1, padx=10, pady=global_padding_y, sticky="w")
+    subtitle_ext_var = tk.StringVar(root)
+    subtitle_ext_var.set(config.subtitle_formats[0])  # Setăm prima opțiune din listă ca implicită
 
-# Buton de submit pentru a redenumi fișierele
-rename_button = tk.Button(root, text="Redenumește fișierele", command=rename_action, font=button_font, bg=button_bg, fg=button_fg)
-rename_button.grid(row=3, column=0, columnspan=3, padx=10, pady=15, sticky="e")  # Butonul este aliniat complet la dreapta
+    subtitle_ext_menu = tk.OptionMenu(root, subtitle_ext_var, *config.subtitle_formats)
+    subtitle_ext_menu.config(font=label_font, width=15)  # Lățime fixă pentru select
+    subtitle_ext_menu.grid(row=2, column=1, padx=10, pady=global_padding_y, sticky="w")
 
-# Rularea interfeței grafice
-root.mainloop()
+    # Buton de submit pentru a redenumi fișierele
+    rename_button = tk.Button(root, text="Redenumește fișierele", command=rename_action, font=button_font, bg=button_bg, fg=button_fg)
+    rename_button.grid(row=3, column=0, columnspan=3, padx=10, pady=15, sticky="e")  # Butonul este aliniat complet la dreapta
+
+    # Rularea interfeței grafice
+    root.mainloop()
+
+# Dacă se lansează direct acest script, rulează interfața
+if __name__ == "__main__":
+    run()
