@@ -5,7 +5,7 @@ import re
 
 # Funcție pentru obținerea fișierelor cu extensie specifică
 def get_files_with_extension(folder_path, extension):
-    return [f for f in os.listdir(folder_path) if f.endswith(f'.{extension}')]
+    return [f for f in os.listdir(folder_path) if f.endswith(f'{extension}')]
 
 # Funcție pentru extragerea codului SxxEyy din numele fișierului
 def extract_episode_code(file_name):

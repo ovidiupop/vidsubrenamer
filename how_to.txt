@@ -1,3 +1,4 @@
 make executable:
 pyinstaller --onefile --windowed --collect-all libpython3.12.so --icon=renamer.ico renamer.py
 
+pyinstaller --onefile --windowed --collect-all libpython3.12.so --add-data "config.json:." --icon=renamer.ico renamer.py
