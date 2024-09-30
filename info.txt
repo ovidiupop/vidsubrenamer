@@ -1,0 +1,11 @@
+Renamer Video/Subtitrări
+
+Această aplicație vă permite să redenumiti fișiere video și subtitrări bazându-se pe codul episodului (SxxEyy).
+
+Instrucțiuni de utilizare:
+1. Selectați folderul care conține fișierele.
+2. Alegeți extensiile pentru fișierele video și subtitrări.
+3. Selectați direcția de redenumire (Subtitrare → Video sau Video → Subtitrare).
+4. Apăsați butonul "Redenumește fișierele".
+
+Pentru mai multe informații, contactați suportul tehnic.

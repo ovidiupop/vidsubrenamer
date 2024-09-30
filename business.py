@@ -1,8 +1,10 @@
 import os
 import re
 
+
 def get_files_with_extension(folder_path, extension):
     return [f for f in os.listdir(folder_path) if f.endswith(f'{extension}')]
+
 
 def extract_episode_code(file_name):
     pattern = r'(S\d{2}E\d{2})'
@@ -10,6 +12,7 @@ def extract_episode_code(file_name):
     if match:
         return match.group(0)
     return None
+
 
 def rename_files(folder_path, source_ext, target_ext):
     source_files = get_files_with_extension(folder_path, source_ext)

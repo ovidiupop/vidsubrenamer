@@ -1,5 +1,0 @@
-{
-  "video_formats": [".mp4", ".mkv", ".avi", ".mov", ".wmv"],
-  "subtitle_formats": [".srt", ".sub", ".ass", ".ssa"],
-  "default_folder": "/home/matricks/aacustom/rename"
-}
