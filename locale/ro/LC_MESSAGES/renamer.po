@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Renamer Video/Subtitles"
+msgstr "Redenumire Video/Subtitrări"
+
+msgid "Source folder path:"
+msgstr "Calea folderului sursă:"
+
+msgid "Select folder"
+msgstr "Selectează folderul"
+
+msgid "Video files extension:"
+msgstr "Extensia fișierelor video:"
+
+msgid "Subtitles extension:"
+msgstr "Extensia subtitrărilor:"
+
+msgid "Rename direction:"
+msgstr "Direcția de redenumire:"
+
+msgid "Subtitle → Video"
+msgstr "Subtitrare → Video"
+
+msgid "Video → Subtitle"
+msgstr "Video → Subtitrare"
+
+msgid "Rename files"
+msgstr "Redenumește fișierele"
+
+msgid "Language"
+msgstr "Limbă"
+
+msgid "Error"
+msgstr "Eroare"
+
+msgid "All fields must be completed!"
+msgstr "Toate câmpurile trebuie completate!"
+
+msgid "Operation Result"
+msgstr "Rezultatul operațiunii"

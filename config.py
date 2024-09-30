@@ -1,18 +1,20 @@
+# config.py
 import json
 import os
+import shutil
 
 config_path = os.path.expanduser("~/.config/renamer/config.json")
+default_config_path = os.path.join(os.path.dirname(__file__), 'config.json')
 
-# Configurație implicită
 default_config = {
     "default_folder": "",
     "video_formats": ["mp4", "mkv", "avi", "mov", "wmv"],
     "subtitle_formats": ["srt", "sub", "ass", "ssa"],
     "default_video_format": "mp4",
     "default_subtitle_format": "srt",
-    "default_rename_direction": "subtitle_to_video"  # Adăugat
+    "default_rename_direction": "subtitle_to_video",
+    "language": "en"
 }
-
 
 def load_config():
     if not os.path.exists(config_path):
@@ -21,18 +23,29 @@ def load_config():
         return default_config
 
     with open(config_path, 'r') as f:
-        return json.load(f)
-
+        loaded_config = json.load(f)
+        # Asigurăm-ne că toate cheile necesare sunt prezente
+        for key, value in default_config.items():
+            if key not in loaded_config:
+                loaded_config[key] = value
+        return loaded_config
 
 def save_config(config_data):
     with open(config_path, 'w') as f:
         json.dump(config_data, f, indent=4)
 
-
 config = load_config()
 
+# Acum putem accesa config în siguranță
+language = config["language"]
+video_formats = config["video_formats"]
+subtitle_formats = config["subtitle_formats"]
+default_folder = config["default_folder"]
+default_video_format = config["default_video_format"]
+default_subtitle_format = config["default_subtitle_format"]
+default_rename_direction = config["default_rename_direction"]
 
-def update_config(new_folder=None, new_video_format=None, new_subtitle_format=None, new_rename_direction=None):
+def update_config(new_folder=None, new_video_format=None, new_subtitle_format=None, new_rename_direction=None, new_language=None):
     global config
     if new_folder:
         config["default_folder"] = new_folder
@@ -42,13 +55,6 @@ def update_config(new_folder=None, new_video_format=None, new_subtitle_format=No
         config["default_subtitle_format"] = new_subtitle_format
     if new_rename_direction:
         config["default_rename_direction"] = new_rename_direction
+    if new_language:
+        config["language"] = new_language
     save_config(config)
-
-
-# Expunem variabilele necesare
-video_formats = config["video_formats"]
-subtitle_formats = config["subtitle_formats"]
-default_folder = config["default_folder"]
-default_video_format = config["default_video_format"]
-default_subtitle_format = config["default_subtitle_format"]
-default_rename_direction = config["default_rename_direction"]  # Adăugat
