@@ -6,7 +6,7 @@ import business
 
 
 def select_folder():
-    folder_selected = filedialog.askdirectory(initialdir=config.default_folder)
+    folder_selected = filedialog.askdirectory(initialdir=folder_path_entry.get())
     if folder_selected:
         folder_path_entry.delete(0, tk.END)
         folder_path_entry.insert(0, folder_selected)
@@ -62,6 +62,7 @@ def run():
 
     folder_path_entry = tk.Entry(root, width=40, font=label_font)
     folder_path_entry.grid(row=0, column=1, padx=10, pady=global_padding_y, sticky="w")
+    folder_path_entry.insert(0, config.default_folder)  # Autocompletăm cu valoarea din config
 
     folder_button = tk.Button(root, text="Selectează folderul", command=select_folder, font=button_font, bg=button_bg,
                               fg=button_fg)
@@ -89,7 +90,6 @@ def run():
     subtitle_ext_menu.config(font=label_font, width=15)
     subtitle_ext_menu.grid(row=2, column=1, padx=10, pady=global_padding_y, sticky="w")
 
-    # Adăugăm butoanele radio pentru direcția de redenumire
     global rename_direction_var
     rename_direction_var = tk.StringVar(value="subtitle_to_video")
 
