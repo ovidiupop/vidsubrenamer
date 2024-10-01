@@ -1,7 +1,6 @@
 # config.py
 import json
 import os
-import shutil
 
 config_path = os.path.expanduser("~/.config/renamer/config.json")
 default_config_path = os.path.join(os.path.dirname(__file__), 'config.json')
@@ -16,6 +15,7 @@ default_config = {
     "language": "en"
 }
 
+
 def load_config():
     if not os.path.exists(config_path):
         os.makedirs(os.path.dirname(config_path), exist_ok=True)
@@ -24,19 +24,19 @@ def load_config():
 
     with open(config_path, 'r') as f:
         loaded_config = json.load(f)
-        # Asigurăm-ne că toate cheile necesare sunt prezente
         for key, value in default_config.items():
             if key not in loaded_config:
                 loaded_config[key] = value
         return loaded_config
 
+
 def save_config(config_data):
     with open(config_path, 'w') as f:
         json.dump(config_data, f, indent=4)
 
+
 config = load_config()
 
-# Acum putem accesa config în siguranță
 language = config["language"]
 video_formats = config["video_formats"]
 subtitle_formats = config["subtitle_formats"]
@@ -45,7 +45,9 @@ default_video_format = config["default_video_format"]
 default_subtitle_format = config["default_subtitle_format"]
 default_rename_direction = config["default_rename_direction"]
 
-def update_config(new_folder=None, new_video_format=None, new_subtitle_format=None, new_rename_direction=None, new_language=None):
+
+def update_config(new_folder=None, new_video_format=None, new_subtitle_format=None, new_rename_direction=None,
+                  new_language=None):
     global config
     if new_folder:
         config["default_folder"] = new_folder

@@ -1,14 +1,18 @@
 # ui.py
 import tkinter as tk
+from tkinter import ttk
 import os
 from controller import Controller
 import menu
+
 
 class RenamerUI:
     def __init__(self, root):
         self.root = root
         self.controller = Controller()
         self.setup_ui()
+        self.root.update()  # Forțează actualizarea ferestrei
+        self.center_window()  # Centrează fereastra după ce a fost creată
 
     def setup_ui(self):
         self.root.title(self.controller._("Renamer Video/Subtitles"))
@@ -16,6 +20,11 @@ class RenamerUI:
         self.root.geometry("760x300")
         self.root.resizable(False, False)
         self.root.tk.call('set', 'language', self.controller.language)
+
+        # Adăugăm stilul pentru Combobox
+        style = ttk.Style()
+        style.configure('TCombobox', padding=2)
+        style.map('TCombobox', fieldbackground=[('readonly', 'white')])
 
         menu.create_menu(self.root, lambda: menu.show_info(self.root, self.controller._), self.controller._)
         self.create_widgets()
@@ -36,74 +45,78 @@ class RenamerUI:
         self.main_frame = tk.Frame(self.root)
         self.main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-        label_font = ("Arial", 12)
-        button_font = ("Arial", 10, "bold")
-        button_bg = "#4CAF50"
-        button_fg = "#FFFFFF"
-        global_padding = 5
-
-        # Configurare grid
         self.main_frame.grid_columnconfigure(1, weight=1)
         for i in range(6):
             self.main_frame.grid_rowconfigure(i, minsize=30)
 
         # Folder selection
-        tk.Label(self.main_frame, text=self.controller._("Source folder path:"), font=label_font).grid(row=0, column=0,
-                                                                                                       padx=global_padding,
-                                                                                                       pady=global_padding,
-                                                                                                       sticky="w")
-        self.folder_path_entry = tk.Entry(self.main_frame, width=40, font=label_font)
-        self.folder_path_entry.grid(row=0, column=1, padx=global_padding, pady=global_padding, sticky="ew")
-        self.folder_path_entry.insert(0, self.controller.default_folder)
-        tk.Button(self.main_frame, text=self.controller._("Select folder"), command=self.select_folder,
-                  font=button_font, bg=button_bg, fg=button_fg).grid(row=0, column=2, padx=global_padding,
-                                                                     pady=global_padding, sticky="e")
+        self.create_folder_selection()
 
         # Video format selection
-        tk.Label(self.main_frame, text=self.controller._("Video files extension:"), font=label_font).grid(row=1,
-                                                                                                          column=0,
-                                                                                                          padx=global_padding,
-                                                                                                          pady=global_padding,
-                                                                                                          sticky="w")
-        self.video_ext_var = tk.StringVar(self.root)
-        self.video_ext_var.set(self.controller.default_video_format)
-        self.video_ext_var.trace("w", self.update_video_format)
-        tk.OptionMenu(self.main_frame, self.video_ext_var, *self.controller.video_formats).grid(row=1, column=1,
-                                                                                                padx=global_padding,
-                                                                                                pady=global_padding,
-                                                                                                sticky="w")
+        self.create_video_format_selection()
 
         # Subtitle format selection
-        tk.Label(self.main_frame, text=self.controller._("Subtitles extension:"), font=label_font).grid(row=2, column=0,
-                                                                                                        padx=global_padding,
-                                                                                                        pady=global_padding,
-                                                                                                        sticky="w")
-        self.subtitle_ext_var = tk.StringVar(self.root)
-        self.subtitle_ext_var.set(self.controller.default_subtitle_format)
-        self.subtitle_ext_var.trace("w", self.update_subtitle_format)
-        tk.OptionMenu(self.main_frame, self.subtitle_ext_var, *self.controller.subtitle_formats).grid(row=2, column=1,
-                                                                                                      padx=global_padding,
-                                                                                                      pady=global_padding,
-                                                                                                      sticky="w")
+        self.create_subtitle_format_selection()
 
         # Rename direction selection
-        tk.Label(self.main_frame, text=self.controller._("Rename direction:"), font=label_font).grid(row=3, column=0,
-                                                                                                     padx=global_padding,
-                                                                                                     pady=global_padding,
-                                                                                                     sticky="w")
-        self.rename_direction_var = tk.StringVar(value=self.controller.default_rename_direction)
-        self.rename_direction_var.trace("w", self.update_rename_direction)
-        tk.Radiobutton(self.main_frame, text=self.controller._("Subtitle → Video"), variable=self.rename_direction_var,
-                       value="subtitle_to_video", font=label_font).grid(row=3, column=1, padx=global_padding,
-                                                                        pady=global_padding, sticky="w")
-        tk.Radiobutton(self.main_frame, text=self.controller._("Video → Subtitle"), variable=self.rename_direction_var,
-                       value="video_to_subtitle", font=label_font).grid(row=4, column=1, padx=global_padding,
-                                                                        pady=global_padding, sticky="w")
+        self.create_rename_direction_selection()
 
         # Rename button
-        tk.Button(self.main_frame, text=self.controller._("Rename files"), command=self.rename_action, font=button_font,
-                  bg=button_bg, fg=button_fg).grid(row=5, column=0, columnspan=3, padx=global_padding,
-                                                   pady=global_padding, sticky="e")
+        self.create_rename_button()
+
+    def create_folder_selection(self):
+        tk.Label(self.main_frame, text=self.controller._("Source folder path:"), font=("Arial", 12)).grid(row=0,
+                                                                                                          column=0,
+                                                                                                          padx=5,
+                                                                                                          pady=5,
+                                                                                                          sticky="w")
+        self.folder_path_entry = tk.Entry(self.main_frame, width=40, font=("Arial", 12))
+        self.folder_path_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
+        self.folder_path_entry.insert(0, self.controller.default_folder)
+        tk.Button(self.main_frame, text=self.controller._("Select folder"), command=self.select_folder,
+                  font=("Arial", 10, "bold"), bg="#4CAF50", fg="#FFFFFF").grid(row=0, column=2, padx=5, pady=5,
+                                                                               sticky="e")
+
+    def create_video_format_selection(self):
+        tk.Label(self.main_frame, text=self.controller._("Video files extension:"), font=("Arial", 12)).grid(row=1,
+                                                                                                             column=0,
+                                                                                                             padx=5,
+                                                                                                             pady=5,
+                                                                                                             sticky="w")
+        self.video_ext_var = tk.StringVar(self.root)
+        self.video_ext_var.set(self.controller.default_video_format)
+        ttk.Combobox(self.main_frame, textvariable=self.video_ext_var, values=self.controller.video_formats,
+                     state="readonly").grid(row=1, column=1, padx=5, pady=5, sticky="w")
+        self.video_ext_var.trace("w", self.update_video_format)
+
+    def create_subtitle_format_selection(self):
+        tk.Label(self.main_frame, text=self.controller._("Subtitles extension:"), font=("Arial", 12)).grid(row=2,
+                                                                                                           column=0,
+                                                                                                           padx=5,
+                                                                                                           pady=5,
+                                                                                                           sticky="w")
+        self.subtitle_ext_var = tk.StringVar(self.root)
+        self.subtitle_ext_var.set(self.controller.default_subtitle_format)
+        ttk.Combobox(self.main_frame, textvariable=self.subtitle_ext_var, values=self.controller.subtitle_formats,
+                     state="readonly").grid(row=2, column=1, padx=5, pady=5, sticky="w")
+        self.subtitle_ext_var.trace("w", self.update_subtitle_format)
+
+    def create_rename_direction_selection(self):
+        tk.Label(self.main_frame, text=self.controller._("Rename direction:"), font=("Arial", 12)).grid(row=3, column=0,
+                                                                                                        padx=5, pady=5,
+                                                                                                        sticky="w")
+        self.rename_direction_var = tk.StringVar(value=self.controller.default_rename_direction)
+        tk.Radiobutton(self.main_frame, text=self.controller._("Subtitle → Video"), variable=self.rename_direction_var,
+                       value="subtitle_to_video", font=("Arial", 12)).grid(row=3, column=1, padx=5, pady=5, sticky="w")
+        tk.Radiobutton(self.main_frame, text=self.controller._("Video → Subtitle"), variable=self.rename_direction_var,
+                       value="video_to_subtitle", font=("Arial", 12)).grid(row=4, column=1, padx=5, pady=5, sticky="w")
+        self.rename_direction_var.trace("w", self.update_rename_direction)
+
+    def create_rename_button(self):
+        tk.Button(self.main_frame, text=self.controller._("Rename files"), command=self.rename_action,
+                  font=("Arial", 10, "bold"), bg="#4CAF50", fg="#FFFFFF").grid(row=5, column=0, columnspan=3, padx=5,
+                                                                               pady=5, sticky="e")
+
     def select_folder(self):
         new_folder = self.controller.select_folder(self.folder_path_entry.get())
         self.folder_path_entry.delete(0, tk.END)
@@ -137,18 +150,22 @@ class RenamerUI:
             self.main_frame.destroy()
         menu.create_menu(self.root, lambda: menu.show_info(self.root, self.controller._), self.controller._)
         self.create_widgets()
-        self.resize_window()
+        self.center_window()
 
-    def resize_window(self):
-        self.root.update_idletasks()  # Actualizează toate sarcinile în așteptare
-        self.root.geometry('')  # Resetează geometria ferestrei
-        self.root.geometry(f"+{self.root.winfo_x()}+{self.root.winfo_y()}")  # Păstrează poziția ferestrei
+    def center_window(self):
+        self.root.update_idletasks()
+        width = self.root.winfo_width()
+        height = self.root.winfo_height()
+        x = (self.root.winfo_screenwidth() // 2) - (width // 2)
+        y = (self.root.winfo_screenheight() // 2) - (height // 2)
+        self.root.geometry('{}x{}+{}+{}'.format(width, height, x, y))
 
 
 def run():
     root = tk.Tk()
     app = RenamerUI(root)
     root.mainloop()
+
 
 if __name__ == "__main__":
     run()

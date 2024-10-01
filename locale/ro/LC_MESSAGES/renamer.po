@@ -40,3 +40,27 @@ msgstr "Toate câmpurile trebuie completate!"
 
 msgid "Operation Result"
 msgstr "Rezultatul operațiunii"
+
+msgid "File"
+msgstr "Fișier"
+
+msgid "Exit"
+msgstr "Ieșire"
+
+msgid "Help"
+msgstr "Ajutor"
+
+msgid "Info"
+msgstr "Informații"
+
+msgid "About"
+msgstr "Despre"
+
+msgid "Information"
+msgstr "Informații"
+
+msgid "The info.txt file was not found."
+msgstr "Fișierul info.txt nu a fost găsit."
+
+msgid "An error occurred while reading the info.txt file: {}"
+msgstr "A apărut o eroare la citirea fișierului info.txt: {}"

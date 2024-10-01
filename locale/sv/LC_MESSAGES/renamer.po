@@ -1,0 +1,66 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "Renamer Video/Subtitles"
+msgstr "Byt namn Video/Undertexter"
+
+msgid "Source folder path:"
+msgstr "Källmappens sökväg:"
+
+msgid "Select folder"
+msgstr "Välj mapp"
+
+msgid "Video files extension:"
+msgstr "Videofilsändelse:"
+
+msgid "Subtitles extension:"
+msgstr "Undertextfilsändelse:"
+
+msgid "Rename direction:"
+msgstr "Namnbytesriktning:"
+
+msgid "Subtitle → Video"
+msgstr "Undertext → Video"
+
+msgid "Video → Subtitle"
+msgstr "Video → Undertext"
+
+msgid "Rename files"
+msgstr "Byt namn på filer"
+
+msgid "Language"
+msgstr "Språk"
+
+msgid "Error"
+msgstr "Fel"
+
+msgid "All fields must be completed!"
+msgstr "Alla fält måste fyllas i!"
+
+msgid "Operation Result"
+msgstr "Operationsresultat"
+
+msgid "File"
+msgstr "Arkiv"
+
+msgid "Exit"
+msgstr "Avsluta"
+
+msgid "Help"
+msgstr "Hjälp"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "About"
+msgstr "Om"
+
+msgid "Information"
+msgstr "Information"
+
+msgid "The info.txt file was not found."
+msgstr "Filen info.txt hittades inte."
+
+msgid "An error occurred while reading the info.txt file: {}"
+msgstr "Ett fel uppstod vid läsning av filen info.txt: {}"
