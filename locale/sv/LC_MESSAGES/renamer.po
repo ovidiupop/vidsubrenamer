@@ -2,9 +2,6 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
-msgid "Renamer Video/Subtitles"
-msgstr "Byt namn Video/Undertexter"
-
 msgid "Source folder path:"
 msgstr "Källmappens sökväg:"
 

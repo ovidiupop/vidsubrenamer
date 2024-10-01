@@ -2,8 +2,6 @@ msgid ""
 msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 
-msgid "Renamer Video/Subtitles"
-msgstr "Redenumire Video/Subtitrări"
 
 msgid "Source folder path:"
 msgstr "Calea folderului sursă:"
