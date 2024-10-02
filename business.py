@@ -19,9 +19,9 @@ def rename_files(folder_path, source_ext, target_ext):
     target_files = get_files_with_extension(folder_path, target_ext)
 
     if not source_files:
-        return f"Nu au fost găsite fișiere sursă cu extensia {source_ext}."
+        return f"No source files with the {source_ext} extension were found."
     if not target_files:
-        return f"Nu au fost găsite fișiere țintă cu extensia {target_ext}."
+        return f"No target files with the {target_ext} extension were found."
 
     replacement_count = 0
 
@@ -41,4 +41,4 @@ def rename_files(folder_path, source_ext, target_ext):
                 replacement_count += 1
                 break
 
-    return f"Au fost redenumite {replacement_count} fișiere țintă."
+    return f"{replacement_count} target files were renamed."

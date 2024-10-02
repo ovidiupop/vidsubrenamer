@@ -2,8 +2,7 @@
 import json
 import os
 
-config_path = os.path.expanduser("~/.config/renamer/config.json")
-default_config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+config_path = os.path.expanduser("~/.config/VidSubRenamer/config.json")
 
 default_config = {
     "default_folder": "",

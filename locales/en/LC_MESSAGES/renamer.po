@@ -3,8 +3,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "VidSub Renamer"
-msgstr "VidSub Renamer"
+msgid "VidSubRenamer"
+msgstr "VidSubRenamer"
 
 # Adăugați aici toate celelalte stringuri folosite în aplicație,
 # cu aceeași valoare pentru msgid și msgstr

@@ -18,7 +18,7 @@ class RenamerUI:
         self.root.after(1000, self.root.deiconify)
 
     def setup_ui(self):
-        self.root.title(self.controller._("VidSub Renamer"))
+        self.root.title(self.controller._("VidSubRenamer"))
         ui_functions.set_icon(self.root)
         self.root.geometry("660x250")
         self.root.resizable(False, False)

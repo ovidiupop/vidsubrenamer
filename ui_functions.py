@@ -6,7 +6,7 @@ import menu
 
 
 def set_icon(root):
-    icon_path = "icon/renamer.png"
+    icon_path = os.path.join("icon", "renamer.png")
     if os.path.exists(icon_path):
         try:
             root.iconphoto(False, tk.PhotoImage(file=icon_path))
@@ -57,7 +57,7 @@ def change_language(controller, root, event, main_frame, create_widgets_callback
     controller.change_language(lang)
 
     # Logica fostei funcții update_ui_language
-    root.title(controller._("VidSub Renamer"))
+    root.title(controller._("VidSubRenamer"))
     if main_frame:
         main_frame.destroy()
     menu.create_menu(root, lambda: menu.show_info(root, controller._), controller._)

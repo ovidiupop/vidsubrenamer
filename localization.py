@@ -4,7 +4,7 @@ import os
 import config
 
 def setup_localization(language='en'):
-    localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locale')
+    localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'locales')
     try:
         translate = gettext.translation('renamer', localedir, languages=[language], fallback=True)
         translate.install()

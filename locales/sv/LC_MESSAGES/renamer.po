@@ -61,3 +61,12 @@ msgstr "Filen info.txt hittades inte."
 
 msgid "An error occurred while reading the info.txt file: {}"
 msgstr "Ett fel uppstod vid läsning av filen info.txt: {}"
+
+msgid "No source files with the {source_ext} extension were found."
+msgstr "Inga källfiler med filändelsen {source_ext} hittades."
+
+msgid "No target files with the {target_ext} extension were found."
+msgstr "Inga målfil med filändelsen {target_ext} hittades."
+
+msgid "{replacement_count} target files were renamed."
+msgstr "{replacement_count} målfil(er) har döpts om."

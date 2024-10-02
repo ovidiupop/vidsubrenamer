@@ -62,3 +62,12 @@ msgstr "Fișierul info.txt nu a fost găsit."
 
 msgid "An error occurred while reading the info.txt file: {}"
 msgstr "A apărut o eroare la citirea fișierului info.txt: {}"
+
+msgid "No source files with the {source_ext} extension were found."
+msgstr "Nu au fost găsite fișiere sursă cu extensia {source_ext}."
+
+msgid "No target files with the {target_ext} extension were found."
+msgstr "Nu au fost găsite fișiere țintă cu extensia {target_ext}."
+
+msgid "{replacement_count} target files were renamed."
+msgstr "Au fost redenumite {replacement_count} fișiere țintă."
