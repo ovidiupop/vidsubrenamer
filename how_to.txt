@@ -1,4 +1,2 @@
 make executable:
 pyinstaller --onefile --windowed --collect-all libpython3.12.so --icon=renamer.ico --additional-hooks-dir=. --hidden-import tkinterweb --hidden-import PIL --hidden-import PIL._tkinter_finder --add-data "locales:locales" --add-data "venv/lib/python3.12/site-packages/tkinterweb:tkinterweb" renamer.py
-
-pyinstaller --onefile --windowed --collect-all libpython3.12.so --icon=renamer.ico --additional-hooks-dir=. --hidden-import tkinterweb --add-data "venv/lib/python3.12/site-packages/tkinterweb:tkinterweb" --add-data "locales:locales" renamer.py

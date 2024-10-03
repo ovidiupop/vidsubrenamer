@@ -1,7 +1,7 @@
-# Renamer Application
+# VidSubRenamer
 
 ## Overview
-The **Renamer Application** is a Python-based utility designed to simplify the renaming of video files and their corresponding subtitle files. The application provides a user-friendly graphical interface (using Tkinter) that allows users to select a folder, choose specific file extensions for videos and subtitles, and automate the renaming process to ensure file names match.
+The **VidSubRenamer** is a Python-based utility designed to simplify the renaming of video files and their corresponding subtitle files. The application provides a user-friendly graphical interface (using Tkinter) that allows users to select a folder, choose specific file extensions for videos and subtitles, and automate the renaming process to ensure file names match.
 
 The application reads configuration options from a JSON file located in the user’s config directory (`~/.config/renamer/config.json`), allowing flexibility and customization for various formats.
 
@@ -21,8 +21,8 @@ The application reads configuration options from a JSON file located in the user
 ## Installation
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/renamer.git
-   cd renamer
+   git clone https://github.com/ovidiupop70/vidsubrenamer.git
+   cd vidsubrenamer
    python3 -m venv venv
    source venv/bin/activate
 
@@ -55,10 +55,5 @@ Open the Application
 	}
 	```
 
-## Building an Executable
-You can build a standalone executable using PyInstaller:
-```
-pyinstaller --onefile --windowed --add-data "config.json:." --add-data "icon/renamer.png:icon" --icon=icon/renamer.ico renamer.py
-```
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
