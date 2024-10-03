@@ -6,23 +6,55 @@ import menu
 
 
 def set_icon(root):
-    icon_path = os.path.join("icon", "renamer.png")
+    icon_path = menu.resource_path(os.path.join("icon", "renamer.png"))
+    print(f"Attempting to set icon from: {icon_path}")
     if os.path.exists(icon_path):
         try:
-            root.iconphoto(False, tk.PhotoImage(file=icon_path))
+            icon = tk.PhotoImage(file=icon_path)
+            root.iconphoto(False, icon)
+            print("Icon set successfully")
         except Exception as e:
             print(f"Error setting icon: {e}")
+            print(f"Icon path: {icon_path}")
+            print(f"File exists: {os.path.exists(icon_path)}")
+            print(f"File size: {os.path.getsize(icon_path)}")
     else:
         print(f"Error: File '{icon_path}' does not exist.")
+        print(f"Current working directory: {os.getcwd()}")
+        print(f"Contents of icon directory: {os.listdir(menu.resource_path('icon'))}")
+
+
+# def center_window(root):
+#     root.update_idletasks()
+#     width = root.winfo_width()
+#     height = root.winfo_height()
+#     x = (root.winfo_screenwidth() // 2) - (width // 2)
+#     y = (root.winfo_screenheight() // 2) - (height // 2)
+#     root.geometry(f'{width}x{height}+{x}+{y}')
 
 
 def center_window(root):
     root.update_idletasks()
     width = root.winfo_width()
     height = root.winfo_height()
-    x = (root.winfo_screenwidth() // 2) - (width // 2)
-    y = (root.winfo_screenheight() // 2) - (height // 2)
-    root.geometry(f'{width}x{height}+{x}+{y}')
+
+    if os.name == 'nt':  # Windows
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight() - 60
+        x = (screen_width // 2) - (width // 2)
+        y = (screen_height // 2) - (height // 2)
+        root.geometry(f'{width}x{height}+{x}+{y}')
+
+        try:
+            from ctypes import windll
+            windll.shcore.SetProcessDpiAwareness(1)
+        except:
+            pass
+    else:  # Linux
+        x = (root.winfo_screenwidth() // 2) - (width // 2)
+        y = (root.winfo_screenheight() // 2) - (height // 2)
+        root.geometry(f'{width}x{height}+{x}+{y}')
+    root.update()
 
 
 def select_folder(controller, folder_path_entry):

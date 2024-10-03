@@ -1,11 +1,28 @@
 # menu.py
 import os
+import sys
 import tkinter as tk
 from tkinter import font as tkfont
 from PIL import Image, ImageTk
 from tkinterweb import HtmlFrame
 import ui_functions
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+def load_icon(filename):
+    try:
+        return tk.PhotoImage(file=resource_path(os.path.join("icons", filename)))
+    except Exception as e:
+        print(f"Error loading icon {filename}: {e}")
+        return None
 
 def create_menu(root, show_info_callback, _):
     menubar = tk.Menu(root)
@@ -13,9 +30,15 @@ def create_menu(root, show_info_callback, _):
 
     def load_icon(filename):
         try:
-            return tk.PhotoImage(file=os.path.join("icons", filename))
+            full_path = resource_path(os.path.join("icons", filename))
+            print(f"Attempting to load icon from: {full_path}")
+            icon = tk.PhotoImage(file=full_path)
+            print(f"Successfully loaded icon: {filename}")
+            return icon
         except Exception as e:
             print(f"Error loading icon {filename}: {e}")
+            print(f"Current working directory: {os.getcwd()}")
+            print(f"Files in icons directory: {os.listdir(resource_path('icons'))}")
             return None
 
     icons = {
@@ -66,17 +89,16 @@ def show_info(root, _):
     html_frame = HtmlFrame(info_window, messages_enabled=False)
     html_frame.pack(expand=True, fill="both")
     language = root.tk.call('set', 'language')
-    info_file_path = os.path.join("help", language, "info.html")
+    info_file_path = resource_path(os.path.join("help", language, "info.html"))
     try:
         with open(info_file_path, "r", encoding="utf-8") as file:
             html_content = file.read()
         html_frame.load_html(html_content)
     except FileNotFoundError:
-        print(f"File not found: {info_file_path}")
         html_frame.load_html(_("<p>The info.html file was not found.</p>"))
     except Exception as e:
-        print(f"An error occurred: {str(e)}")
         html_frame.load_html(_("<p>An error occurred while reading the info.html file: {}</p>").format(str(e)))
+
     info_window.update_idletasks()
     info_window.minsize(700, 500)
     width = max(700, html_frame.winfo_reqwidth())
@@ -91,7 +113,7 @@ def show_about(root, _):
     about_window.iconify()
     about_window.title(_("About VidSubRenamer"))
     about_window.minsize(400, 300)
-    about_window.geometry("400x300")
+    about_window.geometry("400x310")
     about_window.resizable(False, False)
     ui_functions.set_icon(about_window)
     main_frame = tk.Frame(about_window, bg="#f0f0f0")
