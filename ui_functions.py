@@ -24,19 +24,42 @@ def set_icon(root):
         print(f"Contents of icon directory: {os.listdir(menu.resource_path('icon'))}")
 
 
-# def center_window(root):
-#     root.update_idletasks()
-#     width = root.winfo_width()
-#     height = root.winfo_height()
-#     x = (root.winfo_screenwidth() // 2) - (width // 2)
-#     y = (root.winfo_screenheight() // 2) - (height // 2)
-#     root.geometry(f'{width}x{height}+{x}+{y}')
-
-
 def center_window(root):
     root.update_idletasks()
     width = root.winfo_width()
     height = root.winfo_height()
+    x = (root.winfo_screenwidth() // 2) - (width // 2)
+    y = (root.winfo_screenheight() // 2) - (height // 2)
+    root.geometry(f'{width}x{height}+{x}+{y}')
+
+
+# def center_window(root):
+#     # root.update_idletasks()
+#     width = root.winfo_width()
+#     height = root.winfo_height()
+#
+#     if os.name == 'nt':  # Windows
+#         screen_width = root.winfo_screenwidth()
+#         screen_height = root.winfo_screenheight() - 60
+#         x = (screen_width // 2) - (width // 2)
+#         y = (screen_height // 2) - (height // 2)
+#         root.geometry(f'{width}x{height}+{x}+{y}')
+#
+#         try:
+#             from ctypes import windll
+#             windll.shcore.SetProcessDpiAwareness(1)
+#         except:
+#             pass
+#     else:  # Linux
+#         x = (root.winfo_screenwidth() // 2) - (width // 2)
+#         y = (root.winfo_screenheight() // 2) - (height // 2)
+#         root.geometry(f'{width}x{height}+{x}+{y}')
+#     root.update()
+
+def center_main_window(root, width, height):
+    # root.update_idletasks()
+    # width = root.winfo_width()
+    # height = root.winfo_height()
 
     if os.name == 'nt':  # Windows
         screen_width = root.winfo_screenwidth()
@@ -54,6 +77,7 @@ def center_window(root):
         x = (root.winfo_screenwidth() // 2) - (width // 2)
         y = (root.winfo_screenheight() // 2) - (height // 2)
         root.geometry(f'{width}x{height}+{x}+{y}')
+        root.update_idletasks()
     root.update()
 
 

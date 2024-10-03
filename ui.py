@@ -12,7 +12,7 @@ class RenamerUI:
         self.root = root
         self.controller = Controller()
         self.setup_ui()
-        self.root.geometry("660x260")
+        # self.root.geometry("660x260")
 
     def setup_ui(self):
         self.root.title(self.controller._("VidSubRenamer"))
@@ -21,7 +21,7 @@ class RenamerUI:
         style.configure('TCombobox', padding=2)
         style.map('TCombobox', fieldbackground=[('readonly', 'white')])
         self.create_widgets()
-        ui_functions.center_window(self.root)
+        # ui_functions.center_window(self.root)
         ui_functions.set_icon(self.root)
         self.root.resizable(False, False)
         menu.create_menu(self.root, lambda: menu.show_info(self.root, self.controller._), self.controller._)
@@ -63,6 +63,11 @@ class RenamerUI:
 def run():
     root = tk.Tk()
     RenamerUI(root)
+    root.iconify()
+
+    # root.deiconify()
+    ui_functions.center_main_window(root, 660, 260)
+
     root.mainloop()
 
 
