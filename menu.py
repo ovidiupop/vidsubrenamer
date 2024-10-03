@@ -14,7 +14,6 @@ def resource_path(relative_path):
         base_path = sys._MEIPASS
     except Exception:
         base_path = os.path.abspath(".")
-
     return os.path.join(base_path, relative_path)
 
 def load_icon(filename):
@@ -120,15 +119,25 @@ def show_about(root, _):
     main_frame.pack(fill=tk.BOTH, expand=True)
     title_font = tkfont.Font(family="Helvetica", size=16, weight="bold")
     normal_font = tkfont.Font(family="Helvetica", size=12)
+
     try:
-        logo = Image.open("icon/renamer.png")
-        logo = logo.resize((100, 100), Image.LANCZOS)
-        logo_img = ImageTk.PhotoImage(logo)
-        logo_label = tk.Label(main_frame, image=logo_img, bg="#f0f0f0")
-        logo_label.image = logo_img
-        logo_label.pack(pady=(20, 10))
+        logo_path = resource_path(os.path.join("icon", "renamer.png"))
+        print(f"Attempting to load logo from: {logo_path}")
+        if os.path.exists(logo_path):
+            logo = Image.open(logo_path)
+            logo = logo.resize((100, 100), Image.LANCZOS)
+            logo_img = ImageTk.PhotoImage(logo)
+            logo_label = tk.Label(main_frame, image=logo_img, bg="#f0f0f0")
+            logo_label.image = logo_img
+            logo_label.pack(pady=(20, 10))
+            print("Logo loaded successfully")
+        else:
+            print(f"Logo file not found at: {logo_path}")
+            print(f"Contents of icon directory: {os.listdir(os.path.dirname(logo_path))}")
     except Exception as e:
         print(f"Error loading logo: {e}")
+        print(f"Current working directory: {os.getcwd()}")
+
     tk.Label(main_frame, text="VidSubRenamer", font=title_font, bg="#f0f0f0").pack()
     tk.Label(main_frame, text=_("Version 1.0"), font=normal_font, bg="#f0f0f0").pack()
     tk.Label(main_frame, text="Ovidiu Pop", font=normal_font, bg="#f0f0f0").pack(pady=(10, 0))
@@ -142,3 +151,4 @@ def show_about(root, _):
     about_window.transient(root)
     about_window.grab_set()
     root.wait_window(about_window)
+

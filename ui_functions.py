@@ -1,17 +1,24 @@
 # ui_functions.py
 import os
 import tkinter as tk
-
+from PIL import Image, ImageTk
 import menu
 
 
 def set_icon(root):
     icon_path = menu.resource_path(os.path.join("icon", "renamer.png"))
     print(f"Attempting to set icon from: {icon_path}")
+
     if os.path.exists(icon_path):
         try:
-            icon = tk.PhotoImage(file=icon_path)
-            root.iconphoto(False, icon)
+            # Folosim PIL pentru a deschide imaginea
+            img = Image.open(icon_path)
+            # Convertim imaginea pentru Tkinter
+            photo = ImageTk.PhotoImage(img)
+            # Setăm icoana
+            root.iconphoto(False, photo)
+            # Păstrăm o referință la photo pentru a preveni garbage collection
+            root.icon_photo = photo
             print("Icon set successfully")
         except Exception as e:
             print(f"Error setting icon: {e}")
@@ -21,7 +28,17 @@ def set_icon(root):
     else:
         print(f"Error: File '{icon_path}' does not exist.")
         print(f"Current working directory: {os.getcwd()}")
-        print(f"Contents of icon directory: {os.listdir(menu.resource_path('icon'))}")
+        try:
+            icon_dir = os.path.dirname(icon_path)
+            if os.path.exists(icon_dir):
+                print(f"Contents of icon directory: {os.listdir(icon_dir)}")
+            else:
+                print(f"Icon directory does not exist: {icon_dir}")
+        except Exception as e:
+            print(f"Error listing icon directory: {e}")
+
+    # Continuă execuția chiar dacă icoana nu poate fi setată
+    print("Continuing with application execution...")
 
 
 def center_window(root):
@@ -33,34 +50,7 @@ def center_window(root):
     root.geometry(f'{width}x{height}+{x}+{y}')
 
 
-# def center_window(root):
-#     # root.update_idletasks()
-#     width = root.winfo_width()
-#     height = root.winfo_height()
-#
-#     if os.name == 'nt':  # Windows
-#         screen_width = root.winfo_screenwidth()
-#         screen_height = root.winfo_screenheight() - 60
-#         x = (screen_width // 2) - (width // 2)
-#         y = (screen_height // 2) - (height // 2)
-#         root.geometry(f'{width}x{height}+{x}+{y}')
-#
-#         try:
-#             from ctypes import windll
-#             windll.shcore.SetProcessDpiAwareness(1)
-#         except:
-#             pass
-#     else:  # Linux
-#         x = (root.winfo_screenwidth() // 2) - (width // 2)
-#         y = (root.winfo_screenheight() // 2) - (height // 2)
-#         root.geometry(f'{width}x{height}+{x}+{y}')
-#     root.update()
-
 def center_main_window(root, width, height):
-    # root.update_idletasks()
-    # width = root.winfo_width()
-    # height = root.winfo_height()
-
     if os.name == 'nt':  # Windows
         screen_width = root.winfo_screenwidth()
         screen_height = root.winfo_screenheight() - 60
