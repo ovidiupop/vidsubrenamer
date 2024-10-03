@@ -114,7 +114,6 @@ def show_about(root, _):
 
     try:
         logo_path = ui_functions.resource_path(os.path.join("icon", "renamer.png"))
-        print(f"Attempting to load logo from: {logo_path}")
         if os.path.exists(logo_path):
             logo = Image.open(logo_path)
             logo = logo.resize((100, 100), Image.LANCZOS)
@@ -122,7 +121,6 @@ def show_about(root, _):
             logo_label = tk.Label(main_frame, image=logo_img, bg="#f0f0f0")
             logo_label.image = logo_img
             logo_label.pack(pady=(20, 10))
-            print("Logo loaded successfully")
         else:
             print(f"Logo file not found at: {logo_path}")
             print(f"Contents of icon directory: {os.listdir(os.path.dirname(logo_path))}")
