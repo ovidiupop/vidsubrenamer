@@ -1,4 +1,5 @@
 # ui.py
+import os
 import tkinter as tk
 from tkinter import ttk
 from controller import Controller
@@ -12,7 +13,6 @@ class RenamerUI:
         self.root = root
         self.controller = Controller()
         self.setup_ui()
-        # self.root.geometry("660x260")
 
     def setup_ui(self):
         self.root.title(self.controller._("VidSubRenamer"))
@@ -25,7 +25,6 @@ class RenamerUI:
         ui_functions.set_icon(self.root)
         self.root.resizable(False, False)
         menu.create_menu(self.root, lambda: menu.show_info(self.root, self.controller._), self.controller._)
-
 
     def create_widgets(self):
         self.main_frame = tk.Frame(self.root)
@@ -63,10 +62,14 @@ class RenamerUI:
 def run():
     root = tk.Tk()
     RenamerUI(root)
-    root.iconify()
 
-    # root.deiconify()
+    if os.name != 'nt':
+        root.iconify()
+
     ui_functions.center_main_window(root, 660, 260)
+
+    if os.name != 'nt':
+        root.deiconify()
 
     root.mainloop()
 

@@ -1,52 +1,48 @@
 # ui_functions.py
 import os
+import sys
 import tkinter as tk
 from PIL import Image, ImageTk
 import menu
 
 
-def set_icon(root):
-    icon_path = menu.resource_path(os.path.join("icon", "renamer.png"))
-    print(f"Attempting to set icon from: {icon_path}")
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
 
+
+
+def set_icon(root):
+    icon_path = resource_path(os.path.join("icon", "renamer.png"))
     if os.path.exists(icon_path):
         try:
-            # Folosim PIL pentru a deschide imaginea
             img = Image.open(icon_path)
-            # Convertim imaginea pentru Tkinter
             photo = ImageTk.PhotoImage(img)
-            # Setăm icoana
             root.iconphoto(False, photo)
-            # Păstrăm o referință la photo pentru a preveni garbage collection
             root.icon_photo = photo
-            print("Icon set successfully")
         except Exception as e:
             print(f"Error setting icon: {e}")
-            print(f"Icon path: {icon_path}")
-            print(f"File exists: {os.path.exists(icon_path)}")
-            print(f"File size: {os.path.getsize(icon_path)}")
     else:
         print(f"Error: File '{icon_path}' does not exist.")
-        print(f"Current working directory: {os.getcwd()}")
-        try:
-            icon_dir = os.path.dirname(icon_path)
-            if os.path.exists(icon_dir):
-                print(f"Contents of icon directory: {os.listdir(icon_dir)}")
-            else:
-                print(f"Icon directory does not exist: {icon_dir}")
-        except Exception as e:
-            print(f"Error listing icon directory: {e}")
-
-    # Continuă execuția chiar dacă icoana nu poate fi setată
-    print("Continuing with application execution...")
 
 
 def center_window(root):
     root.update_idletasks()
     width = root.winfo_width()
     height = root.winfo_height()
-    x = (root.winfo_screenwidth() // 2) - (width // 2)
-    y = (root.winfo_screenheight() // 2) - (height // 2)
+    if os.name == 'nt':  # Windows
+        screen_width = root.winfo_screenwidth()
+        screen_height = root.winfo_screenheight() - 60
+        x = (screen_width // 2) - (width // 2)
+        y = (screen_height // 2) - (height // 2)
+    else:
+        x = (root.winfo_screenwidth() // 2) - (width // 2)
+        y = (root.winfo_screenheight() // 2) - (height // 2)
     root.geometry(f'{width}x{height}+{x}+{y}')
 
 
@@ -57,7 +53,6 @@ def center_main_window(root, width, height):
         x = (screen_width // 2) - (width // 2)
         y = (screen_height // 2) - (height // 2)
         root.geometry(f'{width}x{height}+{x}+{y}')
-
         try:
             from ctypes import windll
             windll.shcore.SetProcessDpiAwareness(1)
@@ -67,7 +62,8 @@ def center_main_window(root, width, height):
         x = (root.winfo_screenwidth() // 2) - (width // 2)
         y = (root.winfo_screenheight() // 2) - (height // 2)
         root.geometry(f'{width}x{height}+{x}+{y}')
-        root.update_idletasks()
+
+    root.update_idletasks()
     root.update()
 
 
@@ -101,8 +97,6 @@ def rename_action(controller, folder_path_entry, video_ext_var, subtitle_ext_var
 def change_language(controller, root, event, main_frame, create_widgets_callback):
     lang = event.widget.tk.call('set', 'language')
     controller.change_language(lang)
-
-    # Logica fostei funcții update_ui_language
     root.title(controller._("VidSubRenamer"))
     if main_frame:
         main_frame.destroy()

@@ -1,27 +1,21 @@
 # menu.py
 import os
-import sys
 import tkinter as tk
 from tkinter import font as tkfont
+
 from PIL import Image, ImageTk
 from tkinterweb import HtmlFrame
+
 import ui_functions
 
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-    return os.path.join(base_path, relative_path)
 
 def load_icon(filename):
     try:
-        return tk.PhotoImage(file=resource_path(os.path.join("icons", filename)))
+        return tk.PhotoImage(file=ui_functions.resource_path(os.path.join("icons", filename)))
     except Exception as e:
         print(f"Error loading icon {filename}: {e}")
         return None
+
 
 def create_menu(root, show_info_callback, _):
     menubar = tk.Menu(root)
@@ -29,15 +23,10 @@ def create_menu(root, show_info_callback, _):
 
     def load_icon(filename):
         try:
-            full_path = resource_path(os.path.join("icons", filename))
-            print(f"Attempting to load icon from: {full_path}")
+            full_path = ui_functions.resource_path(os.path.join("icons", filename))
             icon = tk.PhotoImage(file=full_path)
-            print(f"Successfully loaded icon: {filename}")
             return icon
         except Exception as e:
-            print(f"Error loading icon {filename}: {e}")
-            print(f"Current working directory: {os.getcwd()}")
-            print(f"Files in icons directory: {os.listdir(resource_path('icons'))}")
             return None
 
     icons = {
@@ -82,13 +71,14 @@ def create_menu(root, show_info_callback, _):
 
 def show_info(root, _):
     info_window = tk.Toplevel(root)
-    info_window.iconify()
+    if os.name != 'nt':
+        info_window.iconify()
     info_window.title(_("Information"))
     ui_functions.set_icon(info_window)
     html_frame = HtmlFrame(info_window, messages_enabled=False)
     html_frame.pack(expand=True, fill="both")
     language = root.tk.call('set', 'language')
-    info_file_path = resource_path(os.path.join("help", language, "info.html"))
+    info_file_path = ui_functions.resource_path(os.path.join("help", language, "info.html"))
     try:
         with open(info_file_path, "r", encoding="utf-8") as file:
             html_content = file.read()
@@ -104,12 +94,14 @@ def show_info(root, _):
     height = max(500, html_frame.winfo_reqheight())
     info_window.geometry(f"{width}x{height}")
     ui_functions.center_window(info_window)
-    info_window.deiconify()
+    if os.name != 'nt':
+        info_window.deiconify()
 
 
 def show_about(root, _):
     about_window = tk.Toplevel(root)
-    about_window.iconify()
+    if os.name != 'nt':
+        about_window.iconify()
     about_window.title(_("About VidSubRenamer"))
     about_window.minsize(400, 300)
     about_window.geometry("400x310")
@@ -121,7 +113,7 @@ def show_about(root, _):
     normal_font = tkfont.Font(family="Helvetica", size=12)
 
     try:
-        logo_path = resource_path(os.path.join("icon", "renamer.png"))
+        logo_path = ui_functions.resource_path(os.path.join("icon", "renamer.png"))
         print(f"Attempting to load logo from: {logo_path}")
         if os.path.exists(logo_path):
             logo = Image.open(logo_path)
@@ -147,7 +139,8 @@ def show_about(root, _):
     close_button.pack(pady=20)
     about_window.update()
     ui_functions.center_window(about_window)
-    about_window.deiconify()
+    if os.name != 'nt':
+        about_window.deiconify()
     about_window.transient(root)
     about_window.grab_set()
     root.wait_window(about_window)
